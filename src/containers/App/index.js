@@ -117,7 +117,7 @@ function App() {
     return (
       <>
         <GlobalStyles />
-        <LoadingContainer>
+        <LoadingContainer addWidth addHeight>
           <Loading />
         </LoadingContainer>
       </>

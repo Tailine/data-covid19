@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Paragraph } from "../../styles/shared";
+import { Paragraph, breakpoints } from "../../styles/shared";
 
 // background - #1c1e32
 // color - #b4b4b9
@@ -20,22 +20,45 @@ export const Main = styled.main`
   color: #f2f1ef;
   min-height: 100vh;
   height: 100%;
+
+  @media ${breakpoints.laptopL} {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 export const Wrapper = styled.div`
   padding: 2em;
+
+  @media ${breakpoints.laptopL} {
+    width: 75%;
+  }
+
+  @media ${breakpoints.desktop} {
+    width: 40%;
+  }
 `;
 
-export const CardContainer = styled.div``;
+export const CardContainer = styled.div`
+  @media ${breakpoints.tablet} {
+    display: flex;
+    justify-content: space-between;
+  }
+`;
 
 export const Select = styled.select`
   border-radius: 8px;
   font-size: 1.2em;
   padding: 0.3em 0;
   width: 100%;
+  margin: 1em 0;
 
   &:focus {
     overflow: hidden;
+  }
+
+  @media ${breakpoints.tablet} {
+    width: auto;
   }
 `;
 

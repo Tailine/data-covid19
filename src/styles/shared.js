@@ -1,5 +1,25 @@
 import styled, { createGlobalStyle, css } from "styled-components";
 
+const size = {
+  mobileS: "320px",
+  mobileM: "375px",
+  mobileL: "425px",
+  tablet: "768px",
+  laptop: "1024px",
+  laptopL: "1440px",
+  desktop: "2560px"
+};
+
+export const breakpoints = {
+  mobileS: `(min-width: ${size.mobileS})`,
+  mobileM: `(min-width: ${size.mobileM})`,
+  mobileL: `(min-width: ${size.mobileL})`,
+  tablet: `(min-width: ${size.tablet})`,
+  laptop: `(min-width: ${size.laptop})`,
+  laptopL: `(min-width: ${size.laptopL})`,
+  desktop: `(min-width: ${size.desktop})`
+};
+
 export const H2 = styled.h2`
   margin: 1em 0;
 
@@ -31,12 +51,11 @@ export const Paragraph = styled.p`
 
 export const LoadingContainer = styled.div`
   background: #0d1219;
-  height: 100vh;
-  width: 100vw;
+  height: ${props => (props.addHeight ? "100vh" : "auto")};
+  width: ${props => (props.addWidth ? "100vw" : "auto")};
   display: flex;
   justify-content: center;
   align-items: center;
-  // margin-top: 1.5em;
 `;
 
 export const Loading = styled.div`
@@ -46,6 +65,7 @@ export const Loading = styled.div`
   border: 0.3rem solid #2e425b;
   border-top-color: #00f69b;
   animation: spin 1s infinite linear;
+  margin-top: 1em;
 
   @keyframes spin {
     0% {
