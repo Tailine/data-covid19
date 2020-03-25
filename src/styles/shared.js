@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle, css } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 const size = {
   mobileS: "320px",
@@ -39,10 +39,6 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     font-family: 'Titillium Web', sans-serif;
   }
-`;
-
-export const tablet = css`
-  @media (min-width: 758px) and (max-width: 1024px);
 `;
 
 export const Paragraph = styled.p`

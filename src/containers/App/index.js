@@ -19,6 +19,7 @@ import {
 } from "../../styles/shared";
 import axios from "axios";
 import { getTranslatedCountryName } from "../../utils/country";
+import { Paragraph } from "../../styles/shared";
 
 function App() {
   const [covidData, setOverallData] = useState();
@@ -112,6 +113,11 @@ function App() {
     );
   });
 
+  const getLastUpdate = lastUpdate => {
+    const date = new Date(lastUpdate);
+    return Intl.DateTimeFormat("pt-br").format(date);
+  };
+
   if (isFetchingInitialData)
     return (
       <>
@@ -129,8 +135,19 @@ function App() {
         <Wrapper>
           <H1>Impactos do COVID-19</H1>
           <H2>Dados mundiais</H2>
+          {covidData && (
+            <Paragraph>
+              Última atualização: {`${getLastUpdate(covidData.lastUpdate)}`}
+            </Paragraph>
+          )}
           <CardContainer>{covidData && renderCards(covidData)}</CardContainer>
           <H2>Dados por país</H2>
+          {selectedContryData && (
+            <Paragraph>
+              Última atualização:{" "}
+              {`${getLastUpdate(selectedContryData.lastUpdate)}`}
+            </Paragraph>
+          )}
           <Select onChange={handleSelect}>
             <Option value="select">Selecione um país</Option>
             {countryOptions}
