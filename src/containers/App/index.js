@@ -49,11 +49,10 @@ function App() {
 
   function saveFormattedCountries(countries) {
     const countriesArray = [];
-
     for (let country in countries) {
       countriesArray.push({
-        countryName: country,
-        countryCode: countries[country]
+        countryName: countries[country].name,
+        countryCode: countries[country].iso2
       });
     }
     setCountries(countriesArray);

@@ -1,16 +1,6 @@
 import styled from "styled-components";
 import { Paragraph, breakpoints } from "../../styles/shared";
 
-// background - #1c1e32
-// color - #b4b4b9
-// green - #00f69b
-// blue - #2159f2
-//#27304d
-// #292b4d
-// #f2f1ef
-// #22272c
-//#c91866
-
 export const H1 = styled.h1`
   text-align: center;
 `;
@@ -29,6 +19,10 @@ export const Main = styled.main`
 
 export const Wrapper = styled.div`
   padding: 2em;
+
+  @media ${breakpoints.laptop} {
+    padding: 2em 7em;
+  }
 
   @media ${breakpoints.laptopL} {
     width: 75%;
