@@ -20,6 +20,13 @@ export const breakpoints = {
   desktop: `(min-width: ${size.desktop})`
 };
 
+export const colors = {
+  green: "#00f69b",
+  black: "#0d1219",
+  almostWhite: "#f2f1ef",
+  blue: "#2e425b"
+};
+
 export const H2 = styled.h2`
   margin: 1em 0;
 
@@ -28,7 +35,7 @@ export const H2 = styled.h2`
     display: block;
     width: 2em;
     height: 2px;
-    background: #00f69b;
+    background: ${colors.green};
   }
 `;
 
@@ -58,8 +65,8 @@ export const Loading = styled.div`
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  border: 0.3rem solid #2e425b;
-  border-top-color: #00f69b;
+  border: 0.3rem solid ${colors.blue};
+  border-top-color: ${colors.green};
   animation: spin 1s infinite linear;
   margin-top: 1em;
 

@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { Paragraph, breakpoints } from "../../styles/shared";
+import { Paragraph, breakpoints, colors } from "../../styles/shared";
 
 export const H1 = styled.h1`
   text-align: center;
 `;
 
 export const Main = styled.main`
-  background: #0d1219;
-  color: #f2f1ef;
+  background: ${colors.black};
+  color: ${colors.almostWhite};
   min-height: 100vh;
   height: 100%;
 
@@ -64,4 +64,18 @@ export const Option = styled.option`
 export const ErrorMessage = styled(Paragraph)`
   text-align: center;
   margin: 1em 0;
+`;
+
+export const Table = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 33em;
+  margin-top: 1em;
+`;
+
+export const TableRowData = styled(Paragraph)`
+  font-weight: bold;
+  border: 1px solid ${colors.blue};
+  width: 100%;
+  text-align: center;
 `;

@@ -9,7 +9,9 @@ import {
   H1,
   Select,
   Option,
-  ErrorMessage
+  ErrorMessage,
+  Table,
+  TableRowData
 } from "./styled";
 import {
   GlobalStyles,
@@ -25,6 +27,7 @@ function App() {
   const [covidData, setOverallData] = useState();
   const [countries, setCountries] = useState([]);
   const [selectedContryData, setSelectedContryData] = useState();
+  const [brazilData, setBrazilData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [isFetchDataByCountry, setIsFetchDataByCountry] = useState(false);
   const [isFetchingInitialData, setIsFetchingInitialData] = useState(true);
@@ -32,6 +35,13 @@ function App() {
   useEffect(() => {
     fetch();
   }, []);
+
+  async function fetchBrazilData() {
+    axios.get("https://covid19-brazil-api.now.sh/api/report/v1/").then(d => {
+      setBrazilData(d.data.data);
+      console.log(d.data.data);
+    });
+  }
 
   async function fetch() {
     axios
@@ -85,11 +95,17 @@ function App() {
   }
 
   async function handleSelect(evt) {
-    if (evt.target.value === "select") {
+    const selectValue = evt.target.value;
+
+    if (selectValue === "select") {
       return;
     }
     setIsFetchDataByCountry(true);
     const resp = await getDataByCountry(evt.target.value);
+
+    if (brazilData.length && selectValue !== "BR") setBrazilData([]);
+    if (selectValue === "BR") fetchBrazilData();
+
     if (resp.error) {
       setErrorMessage(resp.error);
       setIsFetchDataByCountry(false);
@@ -113,10 +129,46 @@ function App() {
     );
   });
 
-  const getLastUpdate = lastUpdate => {
+  function getFormatedDate(lastUpdate) {
     const date = new Date(lastUpdate);
     return Intl.DateTimeFormat("pt-br").format(date);
-  };
+  }
+
+  function renderCountryData() {
+    if (isFetchDataByCountry) {
+      return (
+        <LoadingContainer>
+          <Loading />
+        </LoadingContainer>
+      );
+    }
+
+    if (errorMessage) {
+      return <ErrorMessage>{errorMessage}</ErrorMessage>;
+    }
+
+    return (
+      <>
+        <CardContainer>
+          {selectedContryData && renderCards(selectedContryData)}
+        </CardContainer>
+        {!!brazilData.length && (
+          <Table>
+            <TableRowData>Estado</TableRowData>
+            <TableRowData>Casos</TableRowData>
+            <TableRowData>Mortes</TableRowData>
+            {brazilData.map(d => (
+              <>
+                <TableRowData>{d.uf}</TableRowData>
+                <TableRowData>{d.cases}</TableRowData>
+                <TableRowData>{d.deaths}</TableRowData>
+              </>
+            ))}
+          </Table>
+        )}
+      </>
+    );
+  }
 
   if (isFetchingInitialData)
     return (
@@ -137,32 +189,22 @@ function App() {
           <H2>Dados mundiais</H2>
           {covidData && (
             <Paragraph>
-              Última atualização: {`${getLastUpdate(covidData.lastUpdate)}`}
+              Última atualização: {`${getFormatedDate(covidData.lastUpdate)}`}
             </Paragraph>
           )}
           <CardContainer>{covidData && renderCards(covidData)}</CardContainer>
           <H2>Dados por país</H2>
-          {selectedContryData && (
-            <Paragraph>
-              Última atualização:{" "}
-              {`${getLastUpdate(selectedContryData.lastUpdate)}`}
-            </Paragraph>
-          )}
           <Select onChange={handleSelect}>
             <Option value="select">Selecione um país</Option>
             {countryOptions}
           </Select>
-          {isFetchDataByCountry ? (
-            <LoadingContainer>
-              <Loading />
-            </LoadingContainer>
-          ) : !errorMessage ? (
-            <CardContainer>
-              {selectedContryData && renderCards(selectedContryData)}
-            </CardContainer>
-          ) : (
-            <ErrorMessage>{errorMessage}</ErrorMessage>
+          {selectedContryData && (
+            <Paragraph>
+              Última atualização:{" "}
+              {`${getFormatedDate(selectedContryData.lastUpdate)}`}
+            </Paragraph>
           )}
+          {renderCountryData()}
         </Wrapper>
       </Main>
     </>
