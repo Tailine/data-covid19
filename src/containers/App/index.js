@@ -1,6 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { getOverallData, getDataByCountry, getCountries } from "../../api";
+import React, { useEffect, useState, Fragment } from "react";
+import {
+  getOverallData,
+  getDataByCountry,
+  getCountries,
+  getBrazilStats
+} from "../../api";
 import { Card } from "../../components/Card";
 import {
   Main,
@@ -37,10 +42,8 @@ function App() {
   }, []);
 
   async function fetchBrazilData() {
-    axios.get("https://covid19-brazil-api.now.sh/api/report/v1/").then(d => {
-      setBrazilData(d.data.data);
-      console.log(d.data.data);
-    });
+    const data = await getBrazilStats();
+    setBrazilData(data);
   }
 
   async function fetch() {
@@ -158,11 +161,11 @@ function App() {
             <TableRowData>Casos</TableRowData>
             <TableRowData>Mortes</TableRowData>
             {brazilData.map(d => (
-              <>
+              <Fragment key={d.uf}>
                 <TableRowData>{d.uf}</TableRowData>
                 <TableRowData>{d.cases}</TableRowData>
                 <TableRowData>{d.deaths}</TableRowData>
-              </>
+              </Fragment>
             ))}
           </Table>
         )}
